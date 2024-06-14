@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "nmwifi"
 version = "0.0.2"
-description = "Python API to configure a Wi-Fi device through Network Manager using a fallback Access Point."
+description = "Python API to configure a Wi-Fi device through NetworkManager using a fallback Access Point."
 authors = ["gruvw <gruvw.dev@gmail.com>"]
 readme = "README.md"
 homepage = "https://github.com/gruvw/nmwifi"
