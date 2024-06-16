@@ -4,7 +4,7 @@ The [Python](https://www.python.org) package `nmwifi` provides an API to configu
 
 Take a look at the project's [roadmap](docs/roadmap.md) to see upcoming features (and all the work accomplished).
 
-**Note**: check out the `nmwifi` python package on PyPI <https://pypi.org/project/nmwifi> (managed using [Poetry](https://python-poetry.org/)).
+**Note** - Check out the `nmwifi` python package on PyPI: <https://pypi.org/project/nmwifi> (managed using [Poetry](https://python-poetry.org/)).
 
 <!-- TODO initially developped for RPI to set up it wifi network to your home router, works for any device that has at least one wireless network interafce and run NetworkManager -->
 
