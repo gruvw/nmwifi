@@ -1,8 +1,8 @@
-class InterfaceNotFound(Exception):
+class NetworkManagerRequired(Exception):
     pass
 
 
-class NetworkManagerRequired(Exception):
+class InterfaceNotFound(Exception):
     pass
 
 
@@ -13,6 +13,12 @@ class NotConfigured(Exception):
 class InvalidConnectionParameters(Exception):
     pass
 
+
+class CommandError(Exception):
+    pass
+
+
+NM_REQUIRED = NetworkManagerRequired("NetworkManager utility is required.")
 
 WIFI_NOT_CONFIGURED = NotConfigured("nmwifi Wi-Fi is not set up.")
 AP_NOT_CONFIGURED = NotConfigured("nmwifi Access Point is not set up.")

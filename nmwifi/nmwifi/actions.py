@@ -43,6 +43,7 @@ def periodic_activate_wifi(interface, interval=600):
             activate_wifi(interface)
         except NotConfigured:
             pass
+
         time.sleep(interval)
 
 

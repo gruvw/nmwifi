@@ -25,12 +25,15 @@ def is_wifi_active(interface=None):
 
 
 def is_ap_active(interface=None):
+    # TODO
     pass
 
 
 def is_wifi_configured(interface=None):
+    # TODO
     pass
 
 
 def is_ap_configured(interface=None):
+    # TODO
     pass

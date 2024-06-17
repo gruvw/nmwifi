@@ -1,4 +1,4 @@
-from nmwifi.cmd import get_mac_address
+from nmwifi._nm_wrapper import get_mac_address
 
 
 # Dummy Wi-Fi credentials that should never exist
