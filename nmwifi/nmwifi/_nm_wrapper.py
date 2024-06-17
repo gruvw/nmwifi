@@ -4,13 +4,14 @@ import subprocess
 from nmwifi.exceptions import CommandError, NM_REQUIRED
 
 
-NMCLI = "nmcli"
 SUDO = "sudo"
+NMCLI = "nmcli"
+DEFAULT_ARGS = ["-c", "no"]
 ENCODING = "utf-8"
 
 
-def _run(args, as_sudo=False):
-    cmd = [NMCLI, args]
+def _run(*args, as_sudo=False):
+    cmd = [NMCLI, *DEFAULT_ARGS, *args]
 
     if as_sudo:
         cmd.insert(0, SUDO)
@@ -44,9 +45,10 @@ def _verify_nm():
     return True
 
 
-def interface_exists(interface):
-    # TODO
-    pass
+def wifi_interface_exists(interface):
+    output = _run("-c", "no", "-g", "device,type", "d")
+    interfaces = re.findall(r"^(.+):wifi$", output, re.MULTILINE)
+    return interface in interfaces
 
 
 def get_mac_address(interface) -> str:

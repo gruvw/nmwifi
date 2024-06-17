@@ -15,3 +15,4 @@
 - [ ] Install intsructions
 - [ ] Examples directory with python examples
 - [ ] Python public API documentation
+- [ ] Python type hints
