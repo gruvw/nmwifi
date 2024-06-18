@@ -1,5 +1,7 @@
 import time
 
+from nmwifi import _nm_wrapper
+from nmwifi.data import MIN_WIFI_STRENGTH
 from nmwifi.checks import (
     is_wifi_active,
     is_wifi_configured,
@@ -21,6 +23,7 @@ def activate_wifi(interface):
         # Wi-Fi is already active
         return
 
+    # TODO check if target SSID is in range
     # TODO activate wifi
     return
 
@@ -37,7 +40,7 @@ def activate_ap(interface):
     return
 
 
-def periodic_activate_wifi(interface, interval=600):
+def periodic_activate_wifi(interface, interval=300):
     while True:
         try:
             activate_wifi(interface)
@@ -61,3 +64,15 @@ def remove_ap(interface):
 
     # TODO remove ap
     pass
+
+
+def available_networks(interface):
+    networks = _nm_wrapper.list_available_networks(interface)
+    networks = [
+        (ssid, strength)
+        for ssid, signal in networks
+        if (strength := int(signal)) >= MIN_WIFI_STRENGTH
+    ]
+    networks.sort(key=lambda n: n[1], reverse=True)
+
+    return networks

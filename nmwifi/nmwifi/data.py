@@ -8,6 +8,9 @@ UNEXISTING_WIFI_PASSWORD = "52559422-5d46-437d-8920-2fef97d0cfe2"
 # Default AP settings
 DEFAULT_AP_SSID_PREFIX = "NMWiFi"
 
+# Others
+MIN_WIFI_STRENGTH = 15
+
 
 def default_ap_ssid(interface):
     mac = get_mac_address(interface)
