@@ -75,4 +75,12 @@ def available_networks(interface):
     ]
     networks.sort(key=lambda n: n[1], reverse=True)
 
-    return networks
+    # filter duplicates
+    unique_networks = []
+    seen_ssids = set()
+    for ssid, strength in networks:
+        if ssid not in seen_ssids:
+            unique_networks.append((ssid, strength))
+            seen_ssids.add(ssid)
+
+    return unique_networks

@@ -1,7 +1,7 @@
 import re
 import subprocess
 
-from nmwifi.exceptions import CommandError, NM_REQUIRED, InterfaceNotFound
+from nmwifi.exceptions import CommandError, InterfaceNotFound, NM_REQUIRED
 
 
 SUDO = "sudo"
@@ -73,15 +73,8 @@ def get_mac_address(interface) -> str:
 def list_available_networks(interface):
     _verify_interafce(interface);
 
-    output = _run(
-        "-g",
-        "active,ssid,signal",
-        "d",
-        "wifi",
-        "list",
-        "ifname",
-        interface
-    )
+    output = _run("-g", "active,ssid,signal", "d", "wifi", "list", "ifname",
+        interface)
 
     # ignore currently active ones
     return _findall(r"^no:(.+):(\d+)$", output)

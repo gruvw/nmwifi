@@ -1,4 +1,4 @@
-# NMWiFi Roadmap
+# nmwifi Roadmap
 
 ## Features
 

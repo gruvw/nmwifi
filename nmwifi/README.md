@@ -1,4 +1,4 @@
-# NMWiFi
+# nmwifi
 
 The [Python](https://www.python.org) package `nmwifi` provides an API to configure a Wi-Fi device through [NetworkManager](https://networkmanager.dev/) using a fallback Access Point.
 

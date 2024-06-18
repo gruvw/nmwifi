@@ -1,7 +1,3 @@
-MIN_SSID_LENGTH = 1
-MIN_PASSWODR_LENGTH = 8
-
-
 def is_valid_connection(ssid, password):
     # validate ssid
     if len(ssid) < MIN_SSID_LENGTH:
