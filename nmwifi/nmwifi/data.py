@@ -1,6 +1,10 @@
 from nmwifi import _nm_wrapper
 
 
+# nmwifi NetworkManager connections
+CONNECTION_WIFI = "nmwifi-wifi"
+CONNECTION_AP = "nmwifi-ap"
+
 # Dummy Wi-Fi credentials that should never exist
 UNEXISTING_WIFI_SSID = "72b491ba-2230-4b01-9e98-a5b334f23c6f"
 UNEXISTING_WIFI_PASSWORD = "52559422-5d46-437d-8920-2fef97d0cfe2"

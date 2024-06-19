@@ -3,6 +3,7 @@ import time
 from nmwifi import _nm_wrapper
 from nmwifi.data import MIN_WIFI_STRENGTH
 from nmwifi.checks import (
+    verify_interface,
     is_wifi_active,
     is_wifi_configured,
     is_ap_active,
@@ -15,6 +16,7 @@ from nmwifi.exceptions import (
 )
 
 
+@verify_interface
 def activate_wifi(interface):
     if not is_wifi_configured(interface):
         raise WIFI_NOT_CONFIGURED
@@ -28,6 +30,7 @@ def activate_wifi(interface):
     return
 
 
+@verify_interface
 def activate_ap(interface):
     if not is_ap_configured(interface):
         raise AP_NOT_CONFIGURED
@@ -40,6 +43,7 @@ def activate_ap(interface):
     return
 
 
+@verify_interface
 def periodic_activate_wifi(interface, interval=300):
     while True:
         try:
@@ -50,6 +54,7 @@ def periodic_activate_wifi(interface, interval=300):
         time.sleep(interval)
 
 
+@verify_interface
 def remove_wifi(interface):
     if not is_wifi_configured(interface):
         return
@@ -58,6 +63,7 @@ def remove_wifi(interface):
     pass
 
 
+@verify_interface
 def remove_ap(interface):
     if not is_ap_configured(interface):
         return
@@ -66,6 +72,7 @@ def remove_ap(interface):
     pass
 
 
+@verify_interface
 def available_networks(interface):
     networks = _nm_wrapper.list_available_networks(interface)
     networks = [

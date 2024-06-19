@@ -57,22 +57,13 @@ def wifi_interface_exists(interface):
     return interface in interfaces
 
 
-def _verify_interafce(interface):
-    if not wifi_interface_exists(interface):
-        raise InterfaceNotFound(interface)
-
-
 def get_mac_address(interface) -> str:
-    _verify_interafce(interface);
-
     output = _run("-t", "d", "show", interface)
 
     return _findall(r"^GENERAL.HWADDR:(.+)$", output)[0]
 
 
 def list_available_networks(interface):
-    _verify_interafce(interface);
-
     output = _run("-g", "active,ssid,signal", "d", "wifi", "list", "ifname",
         interface)
 

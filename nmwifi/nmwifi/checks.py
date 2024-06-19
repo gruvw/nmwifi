@@ -1,3 +1,9 @@
+import functools
+
+from nmwifi import _nm_wrapper
+from nmwifi.data import MIN_PASSWODR_LENGTH, MIN_SSID_LENGTH
+from nmwifi.exceptions import InterfaceNotFound
+
 def is_valid_connection(ssid, password):
     # validate ssid
     if len(ssid) < MIN_SSID_LENGTH:
@@ -13,23 +19,35 @@ def is_valid_connection(ssid, password):
     return True
 
 
-def is_wifi_active(interface=None):
+def verify_interface(func):
+    @functools.wraps(func)
+    def verify_interface_wrapper(interface, *args, **kwargs):
+        if not _nm_wrapper.wifi_interface_exists(interface):
+            raise InterfaceNotFound(interface)
+
+        return func(interface, *args, **kwargs)
+    return verify_interface_wrapper
+
+
+@verify_interface
+def is_wifi_active(interface):
     # do not check against which interface if None passed
     # if not configured return False
     # TODO
     pass
 
 
-def is_ap_active(interface=None):
+@verify_interface
+def is_ap_active(interface):
     # TODO
     pass
 
 
-def is_wifi_configured(interface=None):
+def is_wifi_configured(interface):
     # TODO
     pass
 
 
-def is_ap_configured(interface=None):
+def is_ap_configured(interface):
     # TODO
     pass
