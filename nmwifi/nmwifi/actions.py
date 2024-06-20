@@ -1,84 +1,73 @@
 import time
 
-from nmwifi import _nm_wrapper
-from nmwifi.data import MIN_WIFI_STRENGTH
-from nmwifi.checks import (
-    verify_interface,
-    is_wifi_active,
-    is_wifi_configured,
-    is_ap_active,
-    is_ap_configured,
-)
-from nmwifi.exceptions import (
-    NotConfigured,
-    WIFI_NOT_CONFIGURED,
-    AP_NOT_CONFIGURED,
-)
+from nmwifi import _nm_wrapper, data, checks, exceptions
 
 
-@verify_interface
+@checks.verify_interface
 def activate_wifi(interface):
-    if not is_wifi_configured(interface):
-        raise WIFI_NOT_CONFIGURED
+    if not checks.is_wifi_configured():
+        raise exceptions.WIFI_NOT_CONFIGURED
 
-    if is_wifi_active(interface):
+    if checks.is_wifi_active(interface):
         # Wi-Fi is already active
         return
 
-    # TODO check if target SSID is in range
-    # TODO activate wifi
-    return
+    # check if Wi-Fi ssid is in range
+    target_ssid = _nm_wrapper.connection_ssid(data.CONNECTION_NAME_WIFI)
+    networks = available_networks(interface)
+    available_ssids = map(lambda n: n[0], networks)
+
+    if target_ssid not in available_ssids:
+        # Wi-Fi not available
+        return
+
+    _nm_wrapper.activate_connection(interface, data.CONNECTION_NAME_WIFI)
 
 
-@verify_interface
+@checks.verify_interface
 def activate_ap(interface):
-    if not is_ap_configured(interface):
-        raise AP_NOT_CONFIGURED
+    if not checks.is_ap_configured():
+        raise exceptions.AP_NOT_CONFIGURED
 
-    if is_ap_active(interface):
+    if checks.is_ap_active(interface):
         # Access Point is already active
         return
 
-    # TODO activate ap
-    return
+    _nm_wrapper.activate_connection(interface, data.CONNECTION_NAME_AP)
 
 
-@verify_interface
+@checks.verify_interface
 def periodic_activate_wifi(interface, interval=300):
     while True:
         try:
             activate_wifi(interface)
-        except NotConfigured:
+        except exceptions.NotConfigured:
             pass
 
         time.sleep(interval)
 
 
-@verify_interface
-def remove_wifi(interface):
-    if not is_wifi_configured(interface):
+def remove_wifi():
+    if not checks.is_wifi_configured():
         return
 
-    # TODO remove wifi
-    pass
+    _nm_wrapper.remove_connection(data.CONNECTION_NAME_WIFI)
 
 
-@verify_interface
-def remove_ap(interface):
-    if not is_ap_configured(interface):
+def remove_ap():
+    if not checks.is_ap_configured():
         return
 
-    # TODO remove ap
-    pass
+    _nm_wrapper.remove_connection(data.CONNECTION_NAME_AP)
 
 
-@verify_interface
+@checks.verify_interface
 def available_networks(interface):
     networks = _nm_wrapper.list_available_networks(interface)
     networks = [
         (ssid, strength)
         for ssid, signal in networks
-        if (strength := int(signal)) >= MIN_WIFI_STRENGTH
+        if (strength := int(signal)) >= data.MIN_WIFI_STRENGTH
     ]
     networks.sort(key=lambda n: n[1], reverse=True)
 

@@ -1,13 +1,17 @@
 import re
 import subprocess
 
-from nmwifi.exceptions import CommandError, InterfaceNotFound, NM_REQUIRED
+from nmwifi import exceptions
 
 
 SUDO = "sudo"
 NMCLI = "nmcli"
 DEFAULT_ARGS = ["-c", "no"]
 ENCODING = "utf-8"
+
+
+# Every function in this module supposes valid arguments.
+# Invalid arguments crashing `nmcli` will raise a `CommandError`.
 
 
 def _run(*args, as_sudo=False):
@@ -20,7 +24,7 @@ def _run(*args, as_sudo=False):
 
     if complete.returncode != 0:
         error = complete.stderr.decode(ENCODING)
-        raise CommandError(" ".join(cmd) + "\n" + error)
+        raise exceptions.CommandError(" ".join(cmd) + "\n" + error)
 
     return complete.stdout.decode(ENCODING)
 
@@ -30,7 +34,7 @@ def _version():
     version_match = re.search(r"\d+.\d+.\d+", output)
 
     if not version_match:
-        raise CommandError(f"{NMCLI} version not found.")
+        raise exceptions.CommandError(f"{NMCLI} version not found.")
 
     return version_match[0]
 
@@ -40,7 +44,7 @@ def _is_nm_available():
         version = _version()
         if version[0] != "1":
             return False
-    except (FileNotFoundError, CommandError):
+    except (FileNotFoundError, exceptions.CommandError):
         return False
 
     return True
@@ -71,6 +75,41 @@ def list_available_networks(interface):
     return _findall(r"^no:(.+):(\d+)$", output)
 
 
+def new_connection(name, ssid, password=None, ap_mode=False):
+    add_args = ["c", "add", "type", "wifi", "con-name", name, "ssid", ssid,
+        "autoconnect", "true", "connection.autoconnect-retries", "0",
+        "connection.autoconnect-priority"]
+    if ap_mode:
+        add_args += ["9", "mode", "ap"]
+    else:
+        # Wi-Fi has higher priority (if not available start AP)
+        add_args += ["10"]
+
+    _run(add_args)
+
+    if password:
+        _run("c", "modify", name, "wifi-sec.key-mgmt", "wpa-psk",
+            "wifi-sec.psk", password)
+
+    if ap_mode:
+        _run("c", "modify", name, "802-11-wireless.band", "bg", "ipv4.method",
+            "shared", "ipv6.method", "disabled")
+
+
+def activate_connection(interface, name):
+    _run("c", "up", name, "ifname", interface)
+
+
+def remove_connection(name):
+    _run("c", "delete", name)
+
+
+def connection_ssid(name):
+    output = _run("-t", "c", "show", name)
+
+    return _findall(r"^802-11-wireless.ssid:(.+)$", output)[0]
+
+
 # verify NetworkManager available when importing
 if not _is_nm_available():
-    raise NM_REQUIRED
+    raise exceptions.NM_REQUIRED

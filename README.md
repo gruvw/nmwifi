@@ -16,7 +16,7 @@ Before opening a new PR, make sure to open an issue to discuss it beforehand (fi
 
 ## Powered by
 
-This project would not be possible without the incredible technologies below:
+This project would not be possible without the wonderful technologies below:
 
 * [Python](https://www.python.org/)
 * [NetworkManager](https://networkmanager.dev/)
