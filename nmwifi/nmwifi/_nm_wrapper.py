@@ -85,7 +85,7 @@ def new_connection(name, ssid, password=None, ap_mode=False):
         # Wi-Fi has higher priority (if not available start AP)
         add_args += ["10"]
 
-    _run(add_args)
+    _run(*add_args)
 
     if password:
         _run("c", "modify", name, "wifi-sec.key-mgmt", "wpa-psk",

@@ -12,15 +12,6 @@ def activate_wifi(interface):
         # Wi-Fi is already active
         return
 
-    # check if Wi-Fi ssid is in range
-    target_ssid = _nm_wrapper.connection_ssid(data.CONNECTION_NAME_WIFI)
-    networks = available_networks(interface)
-    available_ssids = map(lambda n: n[0], networks)
-
-    if target_ssid not in available_ssids:
-        # Wi-Fi not available
-        return
-
     _nm_wrapper.activate_connection(interface, data.CONNECTION_NAME_WIFI)
 
 
@@ -37,7 +28,7 @@ def activate_ap(interface):
 
 
 @checks.verify_interface
-def periodic_activate_wifi(interface, interval=300):
+def periodic_activate_wifi(interface, interval=1000):
     while True:
         try:
             activate_wifi(interface)
