@@ -110,6 +110,18 @@ def connection_ssid(name):
     return _findall(r"^802-11-wireless.ssid:(.+)$", output)[0]
 
 
+def is_connection_active(name):
+    output = _run("-g", "name,active", "c", "show")
+
+    return bool(_findall(f"^{name}:yes$", output))
+
+
+def connection_exists(name):
+    output = _run("-g", "name", "c", "show")
+
+    return bool(_findall(f"^{name}$", output))
+
+
 # verify NetworkManager available when importing
 if not _is_nm_available():
     raise exceptions.NM_REQUIRED

@@ -2,18 +2,17 @@ from nmwifi import checks, data, exceptions, actions, _nm_wrapper
 
 
 def setup(
-    interface,
     ap_ssid=None,
     ap_password=None,
     wifi_ssid=None,
     wifi_password=None,
-    activate=True,
+    interface=None,
 ):
-    setup_ap(interface, ap_ssid, ap_password, activate=False)
-    setup_wifi(interface, wifi_ssid, wifi_password, activate=activate)
+    setup_ap(ap_ssid, ap_password, interface)
+    setup_wifi(wifi_ssid, wifi_password, interface)
 
 
-def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=True):
+def setup_wifi(wifi_ssid=None, wifi_password=None, interface=None):
     # set dummy wifi ssid + password if None
     actions.remove_wifi()
 
@@ -34,11 +33,11 @@ def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=True):
         wifi_password,
     )
 
-    if activate:
+    if interface:
         _nm_wrapper.activate_connection(interface, data.CONNECTION_NAME_WIFI)
 
 
-def setup_ap(interface, ssid_ap=None, password_ap=None, activate=True):
+def setup_ap(ssid_ap=None, password_ap=None, interface=None):
     # set default ap_ssid and no password if None
     actions.remove_ap()
 
@@ -58,5 +57,10 @@ def setup_ap(interface, ssid_ap=None, password_ap=None, activate=True):
         password_ap,
     )
 
-    if activate:
+    if interface:
         _nm_wrapper.activate_connection(interface, data.CONNECTION_NAME_AP)
+
+
+def clean():
+    actions.remove_wifi()
+    actions.remove_ap()

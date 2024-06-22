@@ -8,7 +8,7 @@ def activate_wifi(interface):
     if not checks.is_wifi_configured():
         raise exceptions.WIFI_NOT_CONFIGURED
 
-    if checks.is_wifi_active(interface):
+    if checks.is_wifi_active():
         # Wi-Fi is already active
         return
 
@@ -20,7 +20,7 @@ def activate_ap(interface):
     if not checks.is_ap_configured():
         raise exceptions.AP_NOT_CONFIGURED
 
-    if checks.is_ap_active(interface):
+    if checks.is_ap_active():
         # Access Point is already active
         return
 

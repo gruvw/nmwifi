@@ -28,25 +28,17 @@ def verify_interface(func):
     return verify_interface_wrapper
 
 
-@verify_interface
-def is_wifi_active(interface):
-    # do not check against which interface if None passed
-    # if not configured return False
-    # TODO
-    pass
+def is_wifi_active():
+    return _nm_wrapper.is_connection_active(data.CONNECTION_NAME_WIFI)
 
 
-@verify_interface
-def is_ap_active(interface):
-    # TODO
-    pass
+def is_ap_active():
+    return _nm_wrapper.is_connection_active(data.CONNECTION_NAME_AP)
 
 
 def is_wifi_configured():
-    # TODO
-    pass
+    return _nm_wrapper.connection_exists(data.CONNECTION_NAME_WIFI)
 
 
 def is_ap_configured():
-    # TODO
-    pass
+    return _nm_wrapper.connection_exists(data.CONNECTION_NAME_AP)
