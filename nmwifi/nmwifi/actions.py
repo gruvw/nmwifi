@@ -1,64 +1,51 @@
-import time
-
-from nmwifi import _nm_wrapper, data, checks, exceptions
+from . import _nm_wrapper, _data, checks, exceptions
 
 
-@checks.verify_interface
+@_nm_wrapper.verify_interface
 def activate_wifi(interface):
     if not checks.is_wifi_configured():
         raise exceptions.WIFI_NOT_CONFIGURED
 
     if checks.is_wifi_active():
         # Wi-Fi is already active
-        return
+        return True
 
-    _nm_wrapper.activate_connection(interface, data.CONNECTION_NAME_WIFI)
+    return _nm_wrapper.activate_connection(interface, _data.CONNECTION_NAME_WIFI)
 
 
-@checks.verify_interface
+@_nm_wrapper.verify_interface
 def activate_ap(interface):
     if not checks.is_ap_configured():
         raise exceptions.AP_NOT_CONFIGURED
 
     if checks.is_ap_active():
         # Access Point is already active
-        return
+        return True
 
-    _nm_wrapper.activate_connection(interface, data.CONNECTION_NAME_AP)
-
-
-@checks.verify_interface
-def periodic_activate_wifi(interface, interval=1000):
-    while True:
-        try:
-            activate_wifi(interface)
-        except exceptions.NotConfigured:
-            pass
-
-        time.sleep(interval)
+    return _nm_wrapper.activate_connection(interface, _data.CONNECTION_NAME_AP)
 
 
 def remove_wifi():
     if not checks.is_wifi_configured():
         return
 
-    _nm_wrapper.remove_connection(data.CONNECTION_NAME_WIFI)
+    _nm_wrapper.remove_connection(_data.CONNECTION_NAME_WIFI)
 
 
 def remove_ap():
     if not checks.is_ap_configured():
         return
 
-    _nm_wrapper.remove_connection(data.CONNECTION_NAME_AP)
+    _nm_wrapper.remove_connection(_data.CONNECTION_NAME_AP)
 
 
-@checks.verify_interface
+@_nm_wrapper.verify_interface
 def available_networks(interface):
     networks = _nm_wrapper.list_available_networks(interface)
     networks = [
         (ssid, strength)
         for ssid, signal in networks
-        if (strength := int(signal)) >= data.MIN_WIFI_STRENGTH
+        if (strength := int(signal)) >= _data.MIN_WIFI_STRENGTH
     ]
     networks.sort(key=lambda n: n[1], reverse=True)
 

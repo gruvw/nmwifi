@@ -1,7 +1,8 @@
 import re
 import subprocess
+import functools
 
-from nmwifi import exceptions
+from . import exceptions
 
 
 SUDO = "sudo"
@@ -61,6 +62,16 @@ def wifi_interface_exists(interface):
     return interface in interfaces
 
 
+def verify_interface(func):
+    @functools.wraps(func)
+    def verify_interface_wrapper(interface, *args, **kwargs):
+        if not wifi_interface_exists(interface):
+            raise exceptions.InterfaceNotFound(interface)
+
+        return func(interface, *args, **kwargs)
+    return verify_interface_wrapper
+
+
 def get_mac_address(interface) -> str:
     output = _run("-t", "d", "show", interface)
 
@@ -97,7 +108,13 @@ def new_connection(name, ssid, password=None, ap_mode=False):
 
 
 def activate_connection(interface, name):
-    _run("c", "up", name, "ifname", interface)
+    try:
+        _run("c", "up", name, "ifname", interface)
+        return True
+    except exceptions.CommandError as e:
+        if "Connection activation failed" in str(e):
+            return False
+        raise e
 
 
 def remove_connection(name):

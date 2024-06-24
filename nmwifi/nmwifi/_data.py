@@ -1,4 +1,4 @@
-from nmwifi import _nm_wrapper
+from . import _nm_wrapper
 
 
 # nmwifi NetworkManager connections
@@ -20,6 +20,7 @@ MIN_PASSWODR_LENGTH = 8
 MIN_WIFI_STRENGTH = 15
 
 
+@_nm_wrapper.verify_interface
 def default_ap_ssid(interface):
     mac = _nm_wrapper.get_mac_address(interface)
     mac = mac.replace(":", "")
