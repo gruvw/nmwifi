@@ -11,6 +11,10 @@ keywords = ["network-manager", "networking", "wifi", "ap", "api"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+click = "^8.1.7"
+
+[tool.poetry.scripts]
+nmwifi = "nmwifi._cli:cli"
 
 [build-system]
 requires = ["poetry-core"]

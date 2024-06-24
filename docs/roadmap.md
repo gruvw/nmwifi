@@ -7,8 +7,8 @@
 - [X] Setup API implementation
 - [X] Check program behavior is correct
 - [X] Python module re-export public functions
-- [ ] `nmwifi wifi-retry` terminal command to run the wifi reconnect loop as a process
-- [ ] `nmwifi setup` terminal command to setup Wi-Fi and AP
+- [X] CLI terminal command to run the wifi reconnect loop as a process
+- [X] CLI terminal command to setup Wi-Fi and AP
 - [ ] Systemd deamon service
 
 ## Documentation

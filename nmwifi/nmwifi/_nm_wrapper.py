@@ -66,7 +66,9 @@ def verify_interface(func):
     @functools.wraps(func)
     def verify_interface_wrapper(interface, *args, **kwargs):
         if not wifi_interface_exists(interface):
-            raise exceptions.InterfaceNotFound(interface)
+            raise exceptions.InterfaceNotFound(
+                f"No interface named {interface}."
+            )
 
         return func(interface, *args, **kwargs)
     return verify_interface_wrapper

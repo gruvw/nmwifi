@@ -5,7 +5,10 @@ from . import _nm_wrapper, actions, exceptions
 
 @_nm_wrapper.verify_interface
 def balance_wifi_ap(interface, interval=900):
-    assert interval >= 90, "Interval must be at least 90 seconds."
+    if interval < 90:
+        raise exceptions.InvalidConnectionParameters(
+            "Interval must be at least 90 seconds."
+        )
 
     while True:
         try:

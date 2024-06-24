@@ -1,20 +1,23 @@
-class NetworkManagerRequired(Exception):
+from click import ClickException
+
+
+class NetworkManagerRequired(ClickException):
     pass
 
 
-class InterfaceNotFound(Exception):
+class InterfaceNotFound(ClickException):
     pass
 
 
-class NotConfigured(Exception):
+class NotConfigured(ClickException):
     pass
 
 
-class InvalidConnectionParameters(Exception):
+class InvalidConnectionParameters(ClickException):
     pass
 
 
-class CommandError(Exception):
+class CommandError(ClickException):
     pass
 
 
