@@ -100,8 +100,8 @@ def setup_wifi(
     help="Set up the Access Point NetworkManager connection.",
 )
 @interface_option
-@wifi_ssid_option
-@wifi_password_option
+@ap_ssid_option
+@ap_password_option
 @activate_option
 def setup_ap(
     interface,
@@ -130,7 +130,7 @@ def setup_ap(
     help="Interval in seconds between retries. (minimum 90)",
 )
 def balance(interface, time):
-    nmwifi.balance_wifi_ap(interface, time)
+    nmwifi.balance(interface, time)
 
 
 @cli.command(

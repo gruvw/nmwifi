@@ -22,6 +22,8 @@ The device will continuously try to connect to the specified Wi-Fi network.
 When the Wi-Fi network is not available, it will automatically switch to the Access Point (AP).
 The balance loop will periodically try to reconnect to the Wi-Fi network on AP mode.
 
+**Note**: the synchronous calls can take some time to respond depending on the underlying NetworkManager behavior.
+
 #### CLI
 
 ```bash

@@ -8,14 +8,14 @@ def setup(
     wifi_password=None,
     ap_ssid=None,
     ap_password=None,
-    activate=False,
+    activate=True,
 ):
     setup_ap(interface, ap_ssid, ap_password, activate=activate)
     setup_wifi(interface, wifi_ssid, wifi_password, activate=activate)
 
 
 @_nm_wrapper.verify_interface
-def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=False):
+def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=True):
     # set dummy wifi ssid + password if None
     actions.remove_wifi()
 
@@ -43,7 +43,7 @@ def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=False):
 
 
 @_nm_wrapper.verify_interface
-def setup_ap(interface, ssid_ap=None, password_ap=None, activate=False):
+def setup_ap(interface, ssid_ap=None, password_ap=None, activate=True):
     # set default ap_ssid and no password if None
     actions.remove_ap()
 
