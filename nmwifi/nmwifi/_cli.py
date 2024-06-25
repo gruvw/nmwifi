@@ -52,17 +52,17 @@ def cli():
     help="Set up both the Access Point and Wi-Fi NetworkManager connections.",
 )
 @interface_option
-@ap_ssid_option
-@ap_password_option
 @wifi_ssid_option
 @wifi_password_option
+@ap_ssid_option
+@ap_password_option
 @activate_option
 def setup(
     interface,
-    ap_ssid,
-    ap_password,
     wifi_ssid,
     wifi_password,
+    ap_ssid,
+    ap_password,
     activate,
 ):
     nmwifi.setup(
