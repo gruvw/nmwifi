@@ -4,10 +4,10 @@ from . import checks, _data, exceptions, actions, _nm_wrapper
 @_nm_wrapper.verify_interface
 def setup(
     interface,
-    ap_ssid=None,
-    ap_password=None,
     wifi_ssid=None,
     wifi_password=None,
+    ap_ssid=None,
+    ap_password=None,
     activate=False,
 ):
     setup_ap(interface, ap_ssid, ap_password, activate=activate)

@@ -67,10 +67,10 @@ def setup(
 ):
     nmwifi.setup(
         interface,
-        ap_ssid,
-        ap_password,
         wifi_ssid,
         wifi_password,
+        ap_ssid,
+        ap_password,
         activate,
     )
 
