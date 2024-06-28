@@ -1,22 +1,68 @@
+from typing import Optional
+
 from . import checks, _data, exceptions, actions, _nm_wrapper
 
 
 @_nm_wrapper.verify_interface
 def setup(
-    interface,
-    wifi_ssid=None,
-    wifi_password=None,
-    ap_ssid=None,
-    ap_password=None,
-    activate=True,
-):
+    interface: str,
+    wifi_ssid: Optional[str] = None,
+    wifi_password: Optional[str] = None,
+    ap_ssid: Optional[str] = None,
+    ap_password: Optional[str] = None,
+    activate: bool = True,
+) -> None:
+    """
+    Sets up the Wi-Fi and Access Point (AP) connections configurations.
+    This function can block for a few seconds when trying to connect to the
+    Wi-Fi network (set activate to False to avoid).
+
+    Args:
+        interface (str): The name of the network interface to use.
+        wifi_ssid (Optional[str]): The SSID of the Wi-Fi network.
+        wifi_password (Optional[str]): The password for the Wi-Fi network.
+        ap_ssid (Optional[str]): The SSID of the Access Point.
+        ap_password (Optional[str]): The password for the Access Point.
+        activate (bool, optional): Whether to activate the connections
+            immediately. Default is True.
+
+    Returns:
+        None
+    """
+
     setup_ap(interface, ap_ssid, ap_password, activate=activate)
     setup_wifi(interface, wifi_ssid, wifi_password, activate=activate)
 
 
 @_nm_wrapper.verify_interface
-def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=True):
-    # set dummy wifi ssid + password if None
+def setup_wifi(
+    interface: str,
+    wifi_ssid: Optional[str] = None,
+    wifi_password: Optional[str] = None,
+    activate: bool = True,
+) -> bool:
+    """
+    Sets up the Wi-Fi configuration.
+    This function can block for a few seconds when trying to connect to the
+    Wi-Fi network (set activate to False to avoid).
+
+    Args:
+        interface (str): The name of the network interface to use.
+        wifi_ssid (Optional[str]): The SSID of the Wi-Fi network.
+        wifi_password (Optional[str]): The password for the Wi-Fi network.
+        activate (bool, optional): Whether to activate the connection
+            immediately. Default is True.
+
+    Returns:
+        bool: True if the connection is activated, False otherwise.
+
+    Raises:
+        nmwifi.exceptions.InvalidConnectionParameters: If the SSID or password
+            is invalid.
+        nmwifi.exceptions.InvalidConnectionParameters: If a password is
+            provided without an SSID.
+    """
+
     actions.remove_wifi()
 
     # default connection details
@@ -24,6 +70,7 @@ def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=True):
         if wifi_password is not None:
             raise exceptions.PASSWORD_WITHOUT_SSID
 
+        # set dummy wifi ssid + password
         wifi_ssid = _data.UNEXISTING_WIFI_SSID
         wifi_password = _data.UNEXISTING_WIFI_PASSWORD
 
@@ -43,8 +90,30 @@ def setup_wifi(interface, wifi_ssid=None, wifi_password=None, activate=True):
 
 
 @_nm_wrapper.verify_interface
-def setup_ap(interface, ssid_ap=None, password_ap=None, activate=True):
-    # set default ap_ssid and no password if None
+def setup_ap(
+    interface: str,
+    ssid_ap: Optional[str] = None,
+    password_ap: Optional[str] = None,
+    activate: bool = True,
+) -> bool:
+    """
+    Sets up the Access Point (AP) configuration.
+
+    Args:
+        interface (str): The name of the network interface to use.
+        ssid_ap (Optional[str]): The SSID of the Access Point.
+        password_ap (Optional[str]): The password for the Access Point.
+        activate (bool, optional): Whether to activate the connection
+            immediately. Default is True.
+
+    Returns:
+        bool: True if the connection is activated, False otherwise.
+
+    Raises:
+        nmwifi.exceptions.InvalidConnectionParameters: If the SSID or password
+            is invalid.
+    """
+
     actions.remove_ap()
 
     # default connection details
@@ -67,6 +136,13 @@ def setup_ap(interface, ssid_ap=None, password_ap=None, activate=True):
     return False
 
 
-def clean():
+def clean() -> None:
+    """
+    Removes both Wi-Fi and Access Point (AP) configurations.
+
+    Returns:
+        None
+    """
+
     actions.remove_wifi()
     actions.remove_ap()

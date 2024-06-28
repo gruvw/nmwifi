@@ -16,7 +16,7 @@
 - [X] README documentation
 - [X] Install instructions
 - [X] CLI help page
-- [ ] CLI basic usage instructions to README
+- [X] CLI basic usage instructions to README
+- [X] Python public API documentation
+- [X] Python type hints
 - [ ] Examples directory with python examples
-- [ ] Python public API documentation
-- [ ] Python type hints
