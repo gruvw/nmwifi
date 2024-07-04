@@ -105,14 +105,14 @@ def setup_wifi(
 @activate_option
 def setup_ap(
     interface,
-    wifi_ssid,
-    wifi_password,
+    ap_ssid,
+    ap_password,
     activate,
 ):
     nmwifi.setup_ap(
         interface,
-        wifi_ssid,
-        wifi_password,
+        ap_ssid,
+        ap_password,
         activate,
     )
 

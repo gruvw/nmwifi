@@ -92,8 +92,8 @@ def setup_wifi(
 @_nm_wrapper.verify_interface
 def setup_ap(
     interface: str,
-    ssid_ap: Optional[str] = None,
-    password_ap: Optional[str] = None,
+    ap_ssid: Optional[str] = None,
+    ap_password: Optional[str] = None,
     activate: bool = True,
 ) -> bool:
     """
@@ -101,8 +101,8 @@ def setup_ap(
 
     Args:
         interface (str): The name of the network interface to use.
-        ssid_ap (Optional[str]): The SSID of the Access Point.
-        password_ap (Optional[str]): The password for the Access Point.
+        ap_ssid (Optional[str]): The SSID of the Access Point.
+        ap_password (Optional[str]): The password for the Access Point.
         activate (bool, optional): Whether to activate the connection
             immediately. Default is True.
 
@@ -117,16 +117,16 @@ def setup_ap(
     actions.remove_ap()
 
     # default connection details
-    if ssid_ap is None:
-        ssid_ap = _data.default_ap_ssid(interface)
+    if ap_ssid is None:
+        ap_ssid = _data.default_ap_ssid(interface)
 
-    if not checks.is_valid_connection(ssid_ap, password_ap):
+    if not checks.is_valid_connection(ap_ssid, ap_password):
         raise exceptions.INVALID_CONNECTION_DETAILS
 
     _nm_wrapper.new_connection(
         _data.CONNECTION_NAME_AP,
-        ssid_ap,
-        password_ap,
+        ap_ssid,
+        ap_password,
         ap_mode=True,
     )
 
