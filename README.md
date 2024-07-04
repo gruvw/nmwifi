@@ -23,12 +23,12 @@ The balance loop will periodically try to reconnect to the Wi-Fi network on AP m
 
 **Note**: the synchronous calls can take some time to respond depending on the underlying NetworkManager behavior.
 
-List every network interface on your machine by running the `nmcli d` command, select one that has the "wifi" type.
+List every network interface on your machine by running the `nmcli d` command, select one that has the "wifi" type (often `wlan0`).
 
 #### CLI
 
 ```bash
-nmwifi setup -i <network-interface> --ws <wifi-ssid> -wp <wifi-password>
+nmwifi setup -i <network-interface> -ws <wifi-ssid> -wp <wifi-password>
 nmwifi balance -i <network-interface>
 ```
 
