@@ -120,3 +120,18 @@ def available_networks(interface: str) -> List[Tuple[str, int]]:
             seen_ssids.add(ssid)
 
     return unique_networks
+
+
+@_nm_wrapper.verify_interface
+def get_mac_address(interface: str) -> str:
+    """
+    Retrieves the MAC address for a given network interface.
+
+    Args:
+        interface (str): The name of the network interface to use.
+
+    Returns:
+        str: The MAC address of the specified network interface.
+    """
+
+    return _nm_wrapper.get_mac_address(interface)
