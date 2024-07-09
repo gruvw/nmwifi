@@ -95,6 +95,9 @@ def available_networks(interface: str) -> List[Tuple[str, int]]:
     The list is sorted by descending signal strength.
     Each SSID appears only once.
 
+    Note: will return an empty list if called on an interface that is
+        active in AP mode.
+
     Args:
         interface (str): The name of the network interface to use.
 
