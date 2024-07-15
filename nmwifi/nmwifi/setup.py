@@ -28,6 +28,12 @@ def setup(
 
     Returns:
         None
+
+    Raises:
+        nmwifi.exceptions.InvalidConnectionParameters: If the SSID or password
+            is invalid.
+        nmwifi.exceptions.InvalidConnectionParameters: If a password is
+            provided without an SSID.
     """
 
     setup_ap(interface, ap_ssid, ap_password, activate=activate)

@@ -82,7 +82,7 @@ def get_mac_address(interface) -> str:
 
 def list_available_networks(interface):
     output = _run("-g", "active,ssid,signal", "d", "wifi", "list", "ifname",
-        interface)
+        interface, "--rescan", "yes")
 
     # ignore currently active ones
     return _findall(r"^no:(.+):(\d+)$", output)
