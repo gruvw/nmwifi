@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nmwifi"
-version = "0.0.3"
+version = "0.0.4"
 description = "Python API (and CLI) to configure a Wi-Fi device through NetworkManager using a fallback Access Point."
 authors = ["gruvw <gruvw.dev@gmail.com>"]
 readme = "README.md"
