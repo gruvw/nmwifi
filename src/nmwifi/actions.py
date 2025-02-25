@@ -93,6 +93,7 @@ def available_networks(interface: str) -> List[Tuple[str, int]]:
     """
     Lists available Wi-Fi networks with signal strength.
     The list is sorted by descending signal strength.
+    Very small signal strength networks are filtered out.
     Each SSID appears only once.
 
     Note: will return an empty list if called on an interface that is
